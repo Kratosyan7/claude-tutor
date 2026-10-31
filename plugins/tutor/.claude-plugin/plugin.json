@@ -1,0 +1,12 @@
+{
+  "name": "tutor",
+  "version": "0.1.0",
+  "description": "A tutor skill for Claude Code: measures your understanding, plans a dependency path to your goal, teaches one reasoning step at a time, and runs separate practice sessions.",
+  "author": {
+    "name": "Kratosyan7"
+  },
+  "homepage": "https://github.com/Kratosyan7/claude-tutor",
+  "repository": "https://github.com/Kratosyan7/claude-tutor",
+  "license": "AGPL-3.0-only",
+  "keywords": ["learning", "teaching", "tutor", "education", "practice", "skill"]
+}

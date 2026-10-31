@@ -1,0 +1,17 @@
+{
+  "name": "claude-tutor",
+  "owner": {
+    "name": "Kratosyan7"
+  },
+  "metadata": {
+    "description": "Tutor skill for Claude Code, adapted from LearnHarness."
+  },
+  "plugins": [
+    {
+      "name": "tutor",
+      "source": "./plugins/tutor",
+      "description": "Measure → plan → teach one reasoning step at a time → practice. Persistent learner map in ~/learning/.",
+      "license": "AGPL-3.0-only"
+    }
+  ]
+}
