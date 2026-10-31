@@ -1,51 +1,51 @@
 # claude-tutor
 
-A tutor skill for [Claude Code](https://claude.com/claude-code). It doesn't just explain things. It finds where your understanding ends, plans a path from there to your goal, teaches one reasoning step at a time, and checks every step before building on it.
+A Claude Code skill that teaches you a subject the way a good private tutor would. It first figures out what you already know, then teaches in small steps and quizzes you after each one.
 
-It's adapted from the agent prompts of [LearnHarness](https://github.com/amosblomqvist/learnharness), a desktop app built around the same method. You get its doctrine inside Claude Code, without the app.
+The method and most of the rules come from [LearnHarness](https://github.com/amosblomqvist/learnharness), a desktop app by Amos Blomqvist. I wanted the same kind of teaching inside Claude Code without running a separate app, so I adapted its agent prompts into a skill. If you'd rather have a proper UI with a knowledge graph, use the original.
 
-## How it works
+## How a course goes
 
-1. **Probe.** The tutor first pins down your goal. "Understand transformers" can mean ten things, and it asks until the goal is concrete. Then it binary-searches each topic the goal depends on to find what you reliably get right and where you start getting things wrong.
-2. **Plan.** It draws a dependency map as a mermaid graph. At the bottom are a few facts you can accept as-is, and your goal sits at the top. You confirm the plan before any teaching starts, and the map changes when your answers show it was wrong about you.
-3. **Teach.** Every step follows the same cycle: **predict → teach → check**. You try to guess the next step before it's explained. Each step is presented as something you could have discovered yourself, not as a decree. A check then makes you apply the idea, not recite it, and a missed check is repaired before anything is built on top of it.
-4. **Practice.** Practice runs as separate sessions, with problems that interleave topics. Hints come one rung at a time (attention → pattern → candidate class → named idea → outline → worked step), and every miss is retested in a fresh form before the session ends.
-5. **Build.** You apply what you learned by building something real in code, test-first, with you at the keyboard. The tutor reviews your code against [ub-mode](https://github.com/unclebob/ub-mode) one issue at a time, using the same hint ladder, and doesn't rewrite it for you.
+You start by saying what you want to understand. "Understand transformers" could mean a dozen different things, so the first few questions are about the goal itself. After that it quizzes you on whatever the goal depends on (for backprop that's derivatives, the chain rule, matrix shapes and so on). It starts near the hard end of each topic and moves down when you miss, until it knows where your knowledge actually stops.
 
-Your answers carry a **confidence %** and your **thinking out loud**. The tutor treats your reasoning as its main signal, not just whether you got it right. A wrong answer given with high confidence is treated as a misconception to dig into.
+Then it draws a plan as a mermaid graph, with a few basic facts at the bottom and your goal at the top, and waits for you to OK it. Teaching follows the plan, but the plan gets redrawn whenever your answers show it guessed wrong about you.
+
+Every step has the same shape. You're asked to guess what comes next; the tutor explains, starting from your guess; then a check question makes you use the idea on a case you haven't seen. If you miss the check, it goes back and fixes that step before moving on.
+
+Practice happens in a separate session. The problems mix topics on purpose, and hints come one at a time: the first ones only point at something in the problem, and the last one shows the step. Anything you missed comes back later in a different form.
+
+Build sessions are for code. You write something real, say an MLP with backprop done by hand, writing the tests first. The tutor reviews it against ub-mode (see below) one issue at a time. It won't rewrite your code for you.
+
+With every answer you give a confidence percentage and a few lines of your reasoning. The reasoning is what it learns the most from. A wrong answer at 90% confidence gets a lot more attention than a wrong guess at 30%.
 
 ## Install
 
-### As a plugin (recommended)
-
-In Claude Code:
+As a plugin, from inside Claude Code:
 
 ```
 /plugin marketplace add Kratosyan7/claude-tutor
 /plugin install tutor@claude-tutor
 ```
 
-### As a plain skill
-
-Copy the skill folder into your user skills directory:
+Or copy the skill folder by hand:
 
 ```bash
 git clone https://github.com/Kratosyan7/claude-tutor
 cp -r claude-tutor/plugins/tutor/skills/tutor ~/.claude/skills/tutor
 ```
 
-### Recommended companion: ub-mode
+### ub-mode
 
-For anything involving code, install Uncle Bob's [ub-mode](https://github.com/unclebob/ub-mode) skill next to this one:
+If you'll be writing code, install Uncle Bob's [ub-mode](https://github.com/unclebob/ub-mode) skill too:
 
 ```bash
 git clone https://github.com/unclebob/ub-mode
 mkdir -p ~/.claude/skills/ub-mode && cp ub-mode/SKILL.md ~/.claude/skills/ub-mode/
 ```
 
-When ub-mode is installed, the tutor applies it to the code it writes for you, like demos and model solutions. It also uses ub-mode as the standard when it reviews your code and in build sessions. Without it, the tutor falls back to a short built-in set of TDD rules. ub-mode isn't bundled here because it ships without a license. Its quality-gate tools, [crapper](https://github.com/unclebob/crapper), [dryer](https://github.com/unclebob/dryer) and [mutator](https://github.com/unclebob/mutator), are optional and get used if they're installed.
+The tutor follows it in the code it writes (demos, model solutions) and uses it as the standard when it reviews yours. Without it there's a short set of TDD rules built in. I can't include ub-mode in this repo because it has no license. Its companion tools, [crapper](https://github.com/unclebob/crapper), [dryer](https://github.com/unclebob/dryer) and [mutator](https://github.com/unclebob/mutator), are optional; the tutor runs them if they're installed.
 
-## Use
+## Usage
 
 ```
 /tutor probe I want to be able to derive backpropagation by hand
@@ -54,36 +54,34 @@ When ub-mode is installed, the tutor applies it to the code it writes for you, l
 /tutor practice
 ```
 
-Or just say what you want to understand ("teach me how TCP congestion control works"), and the skill triggers on its own.
+You don't have to name a phase. Saying "teach me how TCP congestion control works" is enough to start it. It answers in the language you write in.
 
-The tutor teaches in whatever language you write in.
+## Where your progress goes
 
-## Your learning record
+Everything is plain markdown in `~/learning/<subject>/`, so you can open and edit it yourself:
 
-Everything is stored as plain markdown in `~/learning/<subject>/`:
-
-| File | What's in it |
+| File | Contents |
 |---|---|
-| `learner-map.md` | Your goal, plus each topic's floor, ceiling, misconceptions and fragile spots |
-| `propositions.md` | What has been taught, as atomic claims and reasoning chains |
-| `sessions/*.md` | One file per session: the plan, every question, your answers and confidence |
-| `practice-log.md` | What each idea has demonstrated in practice: recall, discrimination, composition |
+| `learner-map.md` | Your goal, and for each topic what you know solidly, where you start getting it wrong, and any misconceptions |
+| `propositions.md` | What you've been taught, written as short claims and the chains of reasoning between them |
+| `sessions/*.md` | One file per session with the plan, the questions, and your answers |
+| `practice-log.md` | How each idea has held up in practice |
 
-The next session picks up from this record instead of starting over. You can read it and edit it.
+Each new session reads these files first and continues from where you left off.
 
-## Layout
+## Files
 
 ```
 .claude-plugin/marketplace.json
 plugins/tutor/.claude-plugin/plugin.json
-plugins/tutor/skills/tutor/SKILL.md          # core: philosophy, voice, accuracy, questions, state
+plugins/tutor/skills/tutor/SKILL.md          # core rules: tone, accuracy, questions, progress files
 plugins/tutor/skills/tutor/references/
-  probe.md                                    # measuring the edge
-  teach.md                                    # method, plan map, predict → teach → check, demos
-  practice.md                                 # retrieval practice, hint ladder, retests
-  code.md                                     # ensemble with ub-mode: tutor code, code review, build sessions
+  probe.md                                    # finding what you already know
+  teach.md                                    # planning and the guess/explain/check cycle
+  practice.md                                 # practice sessions and hints
+  code.md                                     # working with ub-mode, code review, build sessions
 ```
 
 ## License
 
-[AGPL-3.0-only](LICENSE). This is a derivative of LearnHarness, see [NOTICE.md](NOTICE.md).
+AGPL-3.0-only, same as LearnHarness (see [LICENSE](LICENSE)). [NOTICE.md](NOTICE.md) lists the files this was adapted from and what was changed.
