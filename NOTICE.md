@@ -23,3 +23,10 @@ Changes made:
 - Added examples.
 
 This project as a whole is distributed under the same license; see [LICENSE](LICENSE).
+
+## ub-mode
+
+`references/code.md` is original to this project. It describes how the tutor works with
+[ub-mode](https://github.com/unclebob/ub-mode) by Robert C. Martin, a separate skill that this repository
+neither includes nor redistributes. At the time of writing ub-mode is published without a license.
+Install it separately from its repository.

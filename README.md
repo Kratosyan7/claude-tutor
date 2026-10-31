@@ -10,6 +10,7 @@ It's adapted from the agent prompts of [LearnHarness](https://github.com/amosblo
 2. **Plan.** It draws a dependency map as a mermaid graph. At the bottom are a few facts you can accept as-is, and your goal sits at the top. You confirm the plan before any teaching starts, and the map changes when your answers show it was wrong about you.
 3. **Teach.** Every step follows the same cycle: **predict → teach → check**. You try to guess the next step before it's explained. Each step is presented as something you could have discovered yourself, not as a decree. A check then makes you apply the idea, not recite it, and a missed check is repaired before anything is built on top of it.
 4. **Practice.** Practice runs as separate sessions, with problems that interleave topics. Hints come one rung at a time (attention → pattern → candidate class → named idea → outline → worked step), and every miss is retested in a fresh form before the session ends.
+5. **Build.** You apply what you learned by building something real in code, test-first, with you at the keyboard. The tutor reviews your code against [ub-mode](https://github.com/unclebob/ub-mode) one issue at a time, using the same hint ladder, and doesn't rewrite it for you.
 
 Your answers carry a **confidence %** and your **thinking out loud**. The tutor treats your reasoning as its main signal, not just whether you got it right. A wrong answer given with high confidence is treated as a misconception to dig into.
 
@@ -33,11 +34,23 @@ git clone https://github.com/Kratosyan7/claude-tutor
 cp -r claude-tutor/plugins/tutor/skills/tutor ~/.claude/skills/tutor
 ```
 
+### Recommended companion: ub-mode
+
+For anything involving code, install Uncle Bob's [ub-mode](https://github.com/unclebob/ub-mode) skill next to this one:
+
+```bash
+git clone https://github.com/unclebob/ub-mode
+mkdir -p ~/.claude/skills/ub-mode && cp ub-mode/SKILL.md ~/.claude/skills/ub-mode/
+```
+
+When ub-mode is installed, the tutor applies it to the code it writes for you, like demos and model solutions. It also uses ub-mode as the standard when it reviews your code and in build sessions. Without it, the tutor falls back to a short built-in set of TDD rules. ub-mode isn't bundled here because it ships without a license. Its quality-gate tools, [crapper](https://github.com/unclebob/crapper), [dryer](https://github.com/unclebob/dryer) and [mutator](https://github.com/unclebob/mutator), are optional and get used if they're installed.
+
 ## Use
 
 ```
 /tutor probe I want to be able to derive backpropagation by hand
 /tutor teach
+/tutor build an MLP in numpy with hand-written backprop
 /tutor practice
 ```
 
@@ -68,6 +81,7 @@ plugins/tutor/skills/tutor/references/
   probe.md                                    # measuring the edge
   teach.md                                    # method, plan map, predict → teach → check, demos
   practice.md                                 # retrieval practice, hint ladder, retests
+  code.md                                     # ensemble with ub-mode: tutor code, code review, build sessions
 ```
 
 ## License

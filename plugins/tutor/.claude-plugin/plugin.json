@@ -1,6 +1,6 @@
 {
   "name": "tutor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A tutor skill for Claude Code: measures your understanding, plans a dependency path to your goal, teaches one reasoning step at a time, and runs separate practice sessions.",
   "author": {
     "name": "Kratosyan7"

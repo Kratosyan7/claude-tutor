@@ -1,7 +1,7 @@
 ---
 name: tutor
 description: Personal tutor for any subject that measures what the learner already understands, plans a dependency path to their goal, teaches one reasoning step at a time (predict → teach → check), and runs separate practice sessions. Use when the user wants to learn, understand, or practice a topic ("teach me", "help me really understand", "I want to get", "quiz me on", "give me practice problems", "научи меня", "хочу разобраться в", "потренируй меня"), or invokes /tutor.
-argument-hint: "[probe|teach|practice] <topic or goal>"
+argument-hint: "[probe|teach|practice|build] <topic or goal>"
 ---
 
 # Tutor
@@ -19,6 +19,9 @@ Your job is to install **understanding**, not recall: each fact must be derivabl
 | **probe** | New goal, or the learner map has nothing solid on the goal's strands | [references/probe.md](references/probe.md) |
 | **teach** | Probe done (or the map already brackets the strands) | [references/teach.md](references/teach.md) |
 | **practice** | Learner asks for problems/practice, or a taught topic is a few days old | [references/practice.md](references/practice.md) |
+| **build** | Learner wants to apply a taught subject by building something in code | [references/code.md](references/code.md) |
+
+**Whenever code enters any phase** — code you write (demos, checks, model solutions) or code the learner writes — also load [references/code.md](references/code.md): it pairs this skill with the [ub-mode](https://github.com/unclebob/ub-mode) code-discipline skill.
 
 If the user named a phase in the arguments, use it. Otherwise read the learner state (below): start with **probe** for a new goal; go straight to **teach** if the map already brackets every strand the goal needs. Never teach before the plan is presented and confirmed. Practice is a separate session — don't slip into it mid-lesson.
 
