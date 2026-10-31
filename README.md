@@ -74,16 +74,16 @@ This is a shortened course with the goal "derive backpropagation by hand". The t
 > **Tutor:** Let $u = w x$, then $v = w u$, and the loss is $L = v$. Here $x$ is a constant, and the same $w$ appears in both places. What is $dL/dw$?
 > (a) $wx$ (b) $2wx$ (c) $w^2x^2$ (d) $wx + w$. Add your confidence and a line of reasoning.
 >
-> **You:** (b), 80%. *w shows up twice, so there are two paths to L and I add them.*
+> **You:** (b), 80%. w shows up twice, so there are two paths to L and I add them.
 
 > **Tutor:** Layer $z = Wx$, with $W$ of size $m \times n$. You're given $g = \partial L / \partial z$. What is $\partial L / \partial W$?
 > (a) $W^\top g$ (b) $x g^\top$ (c) $g x^\top$ (d) $g \odot x$
 >
-> **You:** (d), 60%. *dz/dW is x, times the gradient coming from above.*
+> **You:** (d), 60%. dz/dW is x, times the gradient coming from above.
 >
 > **Tutor:** That's not right. We'll get to why in the lesson; right now I'm only measuring. Same layer, one element at a time: $z_i = \sum_j W_{ij} x_j$. What is $\partial L / \partial W_{ij}$?
 >
-> **You:** $g_i x_j$, 70%. *Only $z_i$ uses $W_{ij}$, and the derivative of that term is $x_j$.*
+> **You:** $g_i x_j$, 70%. Only $z_i$ uses $W_{ij}$, and the derivative of that term is $x_j$.
 
 After a few more questions the tutor writes `~/learning/ml/learner-map.md`:
 
@@ -139,7 +139,7 @@ graph TD
 
 > **Tutor (guess first):** You already know each entry: $\partial L / \partial W_{ij} = g_i x_j$. $W$ has $m \cdot n$ entries, $g$ has $m$, $x$ has $n$. Which single operation on $g$ and $x$ gives you all $m \cdot n$ numbers at once?
 >
-> **You:** *Multiply them? They're different lengths though, so maybe $g x^\top$?* 40%
+> **You:** Multiply them? They're different lengths though, so maybe $g x^\top$? 40%
 
 > **Tutor:** Your guess is right, and the length mismatch you noticed is the reason it works. Entry $(i, j)$ has to be $g_i$ times $x_j$, with every $i$ paired with every $j$. That's the outer product: an $m \times 1$ column times a $1 \times n$ row is an $m \times n$ matrix whose $(i,j)$ entry is $g_i x_j$.
 >
@@ -150,7 +150,7 @@ graph TD
 > Check: what about a batch? $X$ is $B \times n$ (one example per row), $Z = X W^\top$ is $B \times m$, and $G = \partial L / \partial Z$ is $B \times m$. What is $\partial L / \partial W$?
 > (a) $X^\top G$ (b) $G W$ (c) $G^\top X$ (d) $\sum_b g_b \odot x_b$
 >
-> **You:** (c), 75%. *It has to be $m \times n$. $G^\top$ is $m \times B$, $X$ is $B \times n$.*
+> **You:** (c), 75%. It has to be $m \times n$. $G^\top$ is $m \times B$, $X$ is $B \times n$.
 >
 > **Tutor:** Correct, and the shape argument is the move that settles it. (a) is $n \times m$, which is $W$ transposed. (b) is $\partial L / \partial X$, the gradient for the input.
 
@@ -165,7 +165,7 @@ graph TD
 >
 > **Tutor:** Not complete. The term you have is correct as far as it goes. Count how many times $W$ appears in the forward pass.
 >
-> **You:** *Twice, encoder and decoder. Through the decoder $\hat{x} = W^\top h$, so the gradient for $W^\top$ is $r h^\top$, which is $h r^\top$ for $W$. Total:* $h r^\top + W r x^\top$
+> **You:** Twice, encoder and decoder. Through the decoder $\hat{x} = W^\top h$, so the gradient for $W^\top$ is $r h^\top$, which is $h r^\top$ for $W$. Total: $h r^\top + W r x^\top$
 >
 > **Tutor:** Correct. What made it work was adding the two paths: the same rule as the first probe question, now with matrices.
 
@@ -194,7 +194,7 @@ def test_linear_backward_matches_numeric():
 
 > **Tutor:** Before you run it, why should it fail?
 >
-> **You:** *`linear_backward` doesn't exist yet.*
+> **You:** `linear_backward` doesn't exist yet.
 >
 > **Tutor:** It will fail for that reason, but that failure tells you nothing about the math. Add a stub that returns `np.zeros_like(W)`, so the test fails on the assertion. Then write the smallest version that passes.
 
