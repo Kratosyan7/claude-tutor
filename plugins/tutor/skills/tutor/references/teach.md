@@ -92,6 +92,12 @@ One question per turn, in this order:
 - **Their answer is signal, not verdict.** A lucky right answer is nothing; a wrong answer on an honest check is gold.
 - Verdict → continue, repair, or re-clarify. A wrong answer means resume teaching before the next check.
 
+**A wrong answer: repair by questions first.** Don't hand over the correct answer. Ask a narrower question that puts their reasoning against a case where it contradicts itself ("if $\partial L/\partial W = g \odot x$, what shape is it when $W$ is $3 \times 5$?"). Explain directly only after 2–3 such attempts fail, or when the learner says "just tell me"; then re-test the same idea from a different angle before moving on.
+
+**A right answer: sometimes push back.** Occasionally challenge a correct answer ("are you sure? what about …?"). They should be able to defend it. Folding under pressure on a right answer marks it fragile.
+
+**Unannounced review.** Once or twice a session, without warning, re-test a strand taught in an earlier session (not today's). A pass at a fresh surface is recall evidence for its level; a fail lowers the level and goes on the plan as a repair.
+
 ## Demos and figures — build the instrument, don't describe it
 
 If the concept is dynamic (a parameter to sweep, a process to animate, a distribution to sample, a training run to watch), build it instead of describing it. Ten seconds of dragging a learning-rate slider beats a paragraph about divergence.
@@ -104,4 +110,4 @@ If the concept is dynamic (a parameter to sweep, a process to animate, a distrib
 
 ## Session end
 
-Update `~/learning/<subject>/`: append taught propositions and chains to `propositions.md`; adjust `learner-map.md` with what teaching revealed (new floors, repaired or new misconceptions); write the session file (plan map, questions + answers + confidence + key thinking, open uncertainties, what to practice). Revisit any uncertainty you flagged during the session.
+Update `~/learning/<subject>/`: update levels per the rules in SKILL.md (with the evidence) and show the progress map; append taught propositions and chains to `propositions.md`; adjust `learner-map.md` with what teaching revealed (new floors, repaired or new misconceptions); write the session file (plan map, questions + answers + confidence + key thinking, open uncertainties, what to practice). Revisit any uncertainty you flagged during the session.

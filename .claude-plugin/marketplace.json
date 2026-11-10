@@ -4,7 +4,7 @@
     "name": "Kratosyan7"
   },
   "metadata": {
-    "description": "Tutor skill for Claude Code, adapted from LearnHarness."
+    "description": "Tutor skill for Claude Code, adapted from LearnHarness and Jane Street's socratic-tutor."
   },
   "plugins": [
     {

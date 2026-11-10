@@ -4,6 +4,8 @@ A Claude Code skill that teaches you a subject the way a good private tutor woul
 
 The method and most of the rules come from [LearnHarness](https://github.com/amosblomqvist/learnharness), a desktop app by Amos Blomqvist. I wanted the same kind of teaching inside Claude Code without running a separate app, so I adapted its agent prompts into a skill. If you'd rather have a proper UI with a knowledge graph, use the original.
 
+Some rules come from Jane Street's [socratic-tutor](https://github.com/janestreet/agent_skills) skill: the 0–5 level for each topic and the progress map, the habit of answering a wrong answer with a narrower question instead of the correction, and the final exam.
+
 ## How a course goes
 
 You start by saying what you want to understand. "Understand transformers" could mean a dozen different things, so the first few questions are about the goal itself. After that it quizzes you on whatever the goal depends on (for backprop that's derivatives, the chain rule, matrix shapes and so on). It starts near the hard end of each topic and moves down when you miss, until it knows where your knowledge actually stops.
@@ -15,6 +17,8 @@ Every step has the same shape. You're asked to guess what comes next; the tutor 
 Practice happens in a separate session. The problems mix topics on purpose, and hints come one at a time: the first ones only point at something in the problem, and the last one shows the step. Anything you missed comes back later in a different form.
 
 Build sessions are for code. You write something real, say an MLP with backprop done by hand, writing the tests first. The tutor reviews it against ub-mode (see below) one issue at a time. It won't rewrite your code for you.
+
+Each topic gets a level from 0 (never heard of it) to 5 (could teach it and handles the edge cases). A level only goes up after two separate checks, and one of them has to come later, when the idea isn't fresh. Old topics come back without warning, and a failed one drops a level. When you miss a check, you usually get a smaller question that shows where your reasoning breaks, and a direct explanation only after two or three tries. Once every topic on the way to your goal is at 4 (or 5 if you asked for full mastery), there's a final exam: a question per topic and one problem that needs all of them.
 
 With every answer you give a confidence percentage and a few lines of your reasoning. The reasoning is what it learns the most from. A wrong answer at 90% confidence gets a lot more attention than a wrong guess at 30%.
 
@@ -54,6 +58,8 @@ The tutor follows it in the code it writes (demos, model solutions) and uses it 
 /tutor practice
 ```
 
+During a course you can say "show progress", "harder", "easier", or "just tell me" (skips the questions for the current step).
+
 You don't have to name a phase. Saying "teach me how TCP congestion control works" is enough to start it. It answers in the language you write in.
 
 ## Example: a short course on backprop
@@ -89,15 +95,29 @@ After a few more questions the tutor writes `~/learning/ml/learner-map.md`:
 
 ```markdown
 ### Chain rule, scalar  (probed 2026-10-30)
+- Level: 4
 - Floor: adds contributions when a variable reaches the loss by two paths (Q2, 80%)
 - Ceiling: not reached; held up on everything asked
 
 ### Gradients with respect to matrices  (probed 2026-10-30)
+- Level: 2
 - Floor: per-element dL/dW_ij = g_i x_j (Q4, 70%)
 - Ceiling: can't put the per-element results back together into a matrix (Q3: picked g ⊙ x, 60%)
 - Misconception: carries the scalar rule "dz/dw = x" over to matrices elementwise;
   g ⊙ x can't even have the right shape when m ≠ n
 - Build from: the per-element derivative
+```
+
+and shows the starting levels:
+
+```
+Goal: derive backprop by hand              overall  ████░░░░░░  40%
+------------------------------------------------------------------
+chain rule, scalar        ████░  4/5
+gradients wrt matrices    ██░░░  2/5
+computational graph       █░░░░  1/5
+cost of backward pass     █░░░░  1/5
+------------------------------------------------------------------
 ```
 
 </details>
@@ -218,14 +238,14 @@ Each new session reads these files first and continues from where you left off.
 ```
 .claude-plugin/marketplace.json
 plugins/tutor/.claude-plugin/plugin.json
-plugins/tutor/skills/tutor/SKILL.md          # core rules: tone, accuracy, questions, progress files
+plugins/tutor/skills/tutor/SKILL.md          # core rules: tone, accuracy, questions, levels, progress files
 plugins/tutor/skills/tutor/references/
   probe.md                                    # finding what you already know
   teach.md                                    # planning and the guess/explain/check cycle
-  practice.md                                 # practice sessions and hints
+  practice.md                                 # practice sessions, hints, final exam
   code.md                                     # working with ub-mode, code review, build sessions
 ```
 
 ## License
 
-AGPL-3.0-only, same as LearnHarness (see [LICENSE](LICENSE)). [NOTICE.md](NOTICE.md) lists the files this was adapted from and what was changed.
+AGPL-3.0-only, same as LearnHarness (see [LICENSE](LICENSE)). The parts taken from socratic-tutor were MIT-licensed; their notice is kept in [NOTICE.md](NOTICE.md), which also lists the files this was adapted from and what was changed.

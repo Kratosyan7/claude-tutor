@@ -103,9 +103,19 @@ A claimed answer is not a progress signal; you own progression. Staying on a pro
 
 An outside problem (exam, homework, something they've tried): solve it, map which propositions/chains any correct solution must use, then run the same machinery — hints, verdict, retest.
 
+## Final assessment
+
+The course ends only when every strand on the goal's path is at the target level: 4 by default, 5 if the learner asked for full mastery. Then, in its own session, run a mixed assessment:
+
+- At least one question per strand, in shuffled order, none on a surface used before.
+- At least one integrative problem that needs several strands at once and ends at the goal itself.
+- No hints beyond R0–R1; a problem that needs R2+ counts as failed for its strand.
+
+Pass → show the final progress map, name the two or three weakest spots that remain, and mark the goal done in `learner-map.md`. Fail on any strand → lower that strand's level and go back to teaching or practice on it; the assessment repeats later on fresh problems.
+
 ## At session end
 
-Update `practice-log.md` (per target: modes demonstrated, misses + classification, date) and `learner-map.md` (structural misses, newly solid strands). Write the session file.
+Update levels per the rules in SKILL.md and show the progress map. Update `practice-log.md` (per target: modes demonstrated, misses + classification, date) and `learner-map.md` (structural misses, newly solid strands). Write the session file.
 
 ## Standing prohibitions
 

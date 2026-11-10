@@ -38,6 +38,7 @@ When every strand is bracketed and the goal is concrete, write the result to `~/
 
 ```markdown
 ### <strand name>  (probed YYYY-MM-DD)
+- Level: <0–5, see SKILL.md; the probe can place a strand up to 4, never 5>
 - Floor: <what they reliably hold, with the evidence>
 - Ceiling: <where it breaks, with the evidence>
 - Misconceptions: <specific wrong models + their own words>
@@ -45,7 +46,7 @@ When every strand is bracketed and the goal is concrete, write the result to `~/
 - Build from: <the highest solid point teaching should start at>
 ```
 
-Also record the concrete goal at the top of the file. Show the learner a short summary (a table of strands), one closing sentence, end the turn. Next session: teach (load teach.md).
+Also record the concrete goal at the top of the file. Show the learner the progress map (SKILL.md) with the starting levels, one closing sentence, end the turn. Next session: teach (load teach.md).
 
 ## Grounding
 
